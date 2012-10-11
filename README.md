@@ -61,6 +61,19 @@ In case configuration values must be altered, traqball can be updated with a new
 mytraqball.setup(newConfigurationObject);
 ```
 
+## Events
+You can bind eventlisteners to Traqball.js events
+
+Available events:
+- started
+- rotating
+- finishing
+- finished
+
+example:
+
+mytraqball.on('rotating', callback);
+
 
 ## License
 
