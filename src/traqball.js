@@ -12,7 +12,7 @@
     var userAgent	= navigator.userAgent.toLowerCase(),
         canTouch 	= "ontouchstart" in window,
         prefix 		= cssPref = "",
-        requestAnimFrame, cancelAnimFrame;
+        requestAnimFrame, cancelAnimFrame, _customEvents;
 
     if(/webkit/gi.test(userAgent)){
         prefix = "-webkit-";
@@ -91,7 +91,7 @@
             bindEvent(document, 'touchmove', this.evHandlers[1], "remove");
             bindEvent(document, 'touchend', this.evHandlers[2], "remove");
         }
-    }
+    };
 
     Traqball.prototype.activate = function(){
         if(this.box !== null){
@@ -99,7 +99,27 @@
             bindEvent(document, 'touchmove', this.evHandlers[1], "remove");
             bindEvent(document, 'touchend', this.evHandlers[2], "remove");
         }
-    }
+    };
+
+    Traqball.prototype.on = function(event, fct){
+      _customEvents = _customEvents || {};
+      _customEvents[event] = _customEvents[event] || [];
+      _customEvents[event].push(fct);
+    };
+
+    Traqball.prototype.off = function(event, fct){
+      _customEvents = _customEvents || {};
+      if( event in _customEvents === false  )  return;
+      _customEvents[event].splice(_customEvents[event].indexOf(fct), 1);
+    };
+
+    Traqball.prototype.emit = function(event /* , args... */){
+      _customEvents = _customEvents || {};
+      if( event in _customEvents === false  )  return;
+      for(var i = 0; i < _customEvents[event].length; i++){
+        _customEvents[event][i].apply(this, Array.prototype.slice.call(arguments, 1))
+      }
+    };
 
     Traqball.prototype.setup = function(conf){
         var THIS			= this,
@@ -211,6 +231,8 @@
             bindEvent(THIS.box,'touchstart', startrotation, "remove");
             bindEvent(document, 'touchmove', rotate);
             bindEvent(document, 'touchend', finishrotation);
+
+            Traqball.prototype.emit('started');
         }
 
         function finishrotation(e){
@@ -225,6 +247,8 @@
             }else if(!(isNaN(axis[0]) || isNaN(axis[1]) || isNaN(axis[2]))) {
                 stopSlide();
             }
+
+            Traqball.prototype.emit('finishing');
         }
 
         function cleanupMatrix(){
@@ -265,6 +289,8 @@
             // 2 transforms will be applied: the current rotation 3d and the start-matrix
             THIS.box.style[cssPref+"Transform"] = "rotate3d("+ axis+","+angle+"rad) matrix3d("+startMatrix+")";
 
+            Traqball.prototype.emit('rotating');
+
             curTime = new Date().getTime();
         }
 
@@ -288,6 +314,8 @@
 
             THIS.box.style[cssPref+"Transform"] = "rotate3d("+ axis+","+angle+"rad) matrix3d("+startMatrix+")";
 
+            Traqball.prototype.emit('rotating');
+
             if (delta === 0){
                 stopSlide();
             }else{
@@ -300,6 +328,8 @@
             cleanupMatrix();
             oldAngle = angle = 0;
             delta = 0;
+
+            Traqball.prototype.emit('finished');
         }
 
         //Some stupid matrix-multiplication.
