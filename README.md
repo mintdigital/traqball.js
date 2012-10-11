@@ -25,7 +25,7 @@ var mytraqball = new Traqball(configurationObject);
 
 ``` js
 {
-	stage:				"stage", 			// id of block element. String, default value: <body>
+	stage:				"stage", 			// DOM element or string id of block element. DOM element or String, default value: <body>
 	axis: 				[0.5,1,0.25], 		// X,Y,Z values of initial rotation vector. Array, default value: [1,0,0]
 	angle: 				0.12,				// Initial rotation angle in radian. Float, default value: 0.
 	perspective: 		perspectiveValue,	// Perspective. Integer, default value 700.

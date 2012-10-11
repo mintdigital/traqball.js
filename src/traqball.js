@@ -79,7 +79,7 @@
          })();
 
     var Traqball = function(confObj){
-        this.config = {};
+        this.config = { stage: document.body };
         this.box = null;
 
         this.setup(confObj);
@@ -139,7 +139,10 @@
                 THIS.config[prop] = conf[prop];
                 }
 
-            stage	= document.getElementById(THIS.config.stage) || document.getElementsByTagname("body")[0];
+            if (typeof THIS.config.stage === 'string') {
+                THIS.config.stage = document.getElementById(THIS.config.stage);
+            }
+            stage = THIS.config.stage;
             pos 	= findPos(stage);
             angle 	= THIS.config.angle || 0;
             impulse	= THIS.config.impulse === false ? false : true;
