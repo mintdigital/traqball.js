@@ -335,7 +335,7 @@
                 z 		= 1 - vector[0]*vector[0] - vector[1]*vector[1];
 
              // Make sure that dragging stops when z gets a negative value:
-            vector[2] 	= z > 0 ? Math.sqrt(z) : 0;
+            vector[2] = conf.flat ? 0 : (z > 0 ? Math.sqrt(z) : 0);
 
             return vector;
         }
