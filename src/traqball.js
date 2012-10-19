@@ -224,6 +224,7 @@
 
 
         function startrotation(e){
+            if(e.target.nodeName === conf.ignore.toUpperCase()) { return; }
             if(delta !== 0){stopSlide();};
             e.preventDefault();
 

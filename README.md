@@ -32,6 +32,7 @@ var mytraqball = new Traqball(configurationObject);
 	perspectiveOrigin:	"xVal yVal",		// Perspective Origin. String, default value "50% 50%".
 	impulse: 			boolean, 			// Defines if object receives an impulse after relesing mouse/touchend. Default value: true.
   flat: boolean // Spins in 2 dimensions only if true. Default value: false
+  ignore: String // Events will be ignored if ev.target.nodeName === this value.
 	}
 ```
 If a parameter is missing from configurationObject, existing CSS rules will be applied. If no CSS rules exist, default values will kick in.
